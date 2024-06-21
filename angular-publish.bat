@@ -8,6 +8,20 @@ node -v
 echo npm version:
 CALL npm version
 
+echo Sync local with origin/main.
+
+REM Ensure we are on the main branch
+git checkout main
+
+REM Fetch the latest changes from the remote repository
+git fetch origin
+
+REM Reset the local main branch to match the remote main branch
+git reset --hard origin/main
+
+REM Inform the user that the operation is complete
+echo Update complete. Local main branch is now in sync with origin/main.
+
 REM Cài đặt các dependencies (nếu cần thiết)
 echo Installing dependencies...
 CALL npm install
