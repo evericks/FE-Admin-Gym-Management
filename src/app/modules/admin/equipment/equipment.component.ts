@@ -146,10 +146,9 @@ export class EquipmentComponent implements OnInit, AfterViewInit {
             debounceTime(500),
             switchMap((filter) => {
                 this.isLoading = true;
-                let result = this._equipmentService.getEquipments(filter);
-                result.subscribe(result => {
+                this._equipmentService.getEquipments(filter).subscribe(result => {
                     if (result.data.length == 0) {
-                        this.showFlashMessage('error', 'No invoice items were found', 3000)
+                        this.showFlashMessage('error', 'No items were found', 3000)
                     }
                 });
                 return of(true);
