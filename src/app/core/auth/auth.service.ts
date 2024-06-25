@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
+import { User } from '../user/user.types';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -58,7 +59,7 @@ export class AuthService {
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
+        return this._httpClient.post('/api/auth', credentials).pipe(
             switchMap((response: any) => {
                 // Store the access token in the local storage
                 this.accessToken = response.accessToken;
@@ -81,7 +82,7 @@ export class AuthService {
     signInUsingToken(): Observable<any> {
         // Sign in using the token
         return this._httpClient
-            .post('api/auth/sign-in-with-token', {
+            .post('/api/auth/sign-in-with-token', {
                 accessToken: this.accessToken,
             })
             .pipe(
@@ -89,7 +90,7 @@ export class AuthService {
                     // Return false
                     of(false)
                 ),
-                switchMap((response: any) => {
+                switchMap((response: User) => {
                     // Replace the access token with the new one if it's available on
                     // the response object.
                     //
@@ -97,15 +98,15 @@ export class AuthService {
                     // in using the token, you should generate a new one on the server
                     // side and attach it to the response object. Then the following
                     // piece of code can replace the token with the refreshed one.
-                    if (response.accessToken) {
-                        this.accessToken = response.accessToken;
-                    }
+                    // if (response.accessToken) {
+                    //     this.accessToken = response.accessToken;
+                    // }
 
                     // Set the authenticated flag to true
                     this._authenticated = true;
 
                     // Store the user on the user service
-                    this._userService.user = response.user;
+                    this._userService.user = response;
 
                     // Return true
                     return of(true);

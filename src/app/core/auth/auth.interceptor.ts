@@ -1,13 +1,10 @@
-import {
-    HttpErrorResponse,
-    HttpEvent,
-    HttpHandlerFn,
-    HttpRequest,
-} from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from 'app/core/auth/auth.service';
 import { AuthUtils } from 'app/core/auth/auth.utils';
+import { environment } from 'environments/environment.prod';
 import { Observable, catchError, throwError } from 'rxjs';
+import { ErrorService } from '../error/error.service';
 
 /**
  * Intercept
@@ -15,14 +12,19 @@ import { Observable, catchError, throwError } from 'rxjs';
  * @param req
  * @param next
  */
-export const authInterceptor = (
-    req: HttpRequest<unknown>,
-    next: HttpHandlerFn
-): Observable<HttpEvent<unknown>> => {
+export const authInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
+
     const authService = inject(AuthService);
+    const errorService = inject(ErrorService);
+    const baseUrl = environment.apiURL;
 
     // Clone the request object
     let newReq = req.clone();
+    if (req.url.startsWith('/')) {
+        newReq = req.clone({
+            url: baseUrl + req.url
+        });
+    }
 
     // Request
     //
@@ -32,16 +34,13 @@ export const authInterceptor = (
     // for the protected API routes which our response interceptor will
     // catch and delete the access token from the local storage while logging
     // the user out from the app.
-    if (
-        authService.accessToken &&
-        !AuthUtils.isTokenExpired(authService.accessToken)
-    ) {
-        newReq = req.clone({
-            headers: req.headers.set(
-                'Authorization',
-                'Bearer ' + authService.accessToken
-            ),
-        });
+    if (authService.accessToken && !AuthUtils.isTokenExpired(authService.accessToken)) {
+        if (req.url.startsWith('/')) {
+            newReq = req.clone({
+                url: baseUrl + req.url,
+                headers: req.headers.set('Authorization', 'Bearer ' + authService.accessToken)
+            });
+        };
     }
 
     // Response
@@ -56,7 +55,11 @@ export const authInterceptor = (
                 location.reload();
             }
 
+            if (error instanceof HttpErrorResponse && error.status === 500) {
+                errorService.showServerError(error.error);
+            }
+
             return throwError(error);
-        })
+        }),
     );
 };
