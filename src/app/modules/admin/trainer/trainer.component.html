@@ -12,7 +12,7 @@
             </div>
         }
         <!-- Title -->
-        <div class="text-4xl font-extrabold tracking-tight">Equipments</div>
+        <div class="text-4xl font-extrabold tracking-tight">Trainers</div>
         <!-- Actions -->
         <div class="mt-6 flex shrink-0 items-center gap-3 sm:ml-4 sm:mt-0">
             <button
@@ -48,41 +48,34 @@
         </div>
     </div>
 
-    <!-- Invoices list -->
+    <!-- Trainers list -->
     <div
         appHorizontalScroll
         class="flex flex-auto flex-col overflow-scroll sm:mb-18"
     >
-        <ng-container *ngIf="equipments$ | async as equipments">
+        <ng-container *ngIf="trainers$ | async as trainers">
             <div class="grid">
                 <!-- Header -->
                 <div
-                    class="equipment-grid text-secondary sticky top-0 z-10 grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                    class="trainer-grid text-secondary sticky top-0 z-10 grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                     matSort
                     matSortDisableClear
                 >
                     <div class="hidden sm:block">Action</div>
-                    <div class="hidden sm:block">Thumbnail</div>
-                    <div class="hidden sm:block" [mat-sort-header]="'Name'">
-                        Name
-                    </div>
-                    <div
-                        class="hidden sm:block"
-                        [mat-sort-header]="'Description'"
-                    >
-                        Description
-                    </div>
-                    <div class="hidden sm:block" [mat-sort-header]="'Status'">
-                        Status
-                    </div>
+                    <div class="hidden sm:block">Avatar</div>
+                    <div class="hidden sm:block">Name</div>
+                    <div class="hidden sm:block">Email</div>
+                    <div class="hidden sm:block">Phone</div>
+                    <div class="hidden sm:block">CreateAt</div>
+                    <div class="hidden sm:block">Status</div>
                 </div>
                 <!-- Rows -->
-                <ng-container *ngIf="equipments$ | async as equipments">
+                <ng-container *ngIf="trainers$ | async as trainers">
                     <ng-container
-                        *ngFor="let equipment of equipments; trackBy: trackByFn"
+                        *ngFor="let trainer of trainers; trackBy: trackByFn"
                     >
                         <div
-                            class="equipment-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                            class="trainer-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
                         >
                             <!-- Phone -->
                             <div class="hidden sm:block">
@@ -105,20 +98,19 @@
                                 </div>
                             </div>
 
-                            <!-- Name -->
                             <div class="flex items-center">
                                 <div
                                     class="relative mr-6 flex h-12 w-12 flex-0 items-center justify-center overflow-hidden rounded border"
                                 >
                                     <img
                                         class="w-8"
-                                        *ngIf="equipment.thumbnailUrl"
-                                        [alt]="'Equipment image'"
-                                        [src]="equipment.thumbnailUrl"
+                                        *ngIf="trainer.avatarUrl"
+                                        [alt]="'Trainer image'"
+                                        [src]="trainer.avatarUrl"
                                     />
                                     <div
                                         class="flex h-full w-full items-center justify-center text-center text-xs font-semibold uppercase leading-none"
-                                        *ngIf="!equipment.thumbnailUrl"
+                                        *ngIf="!trainer.avatarUrl"
                                     >
                                         NO THUMB
                                     </div>
@@ -127,17 +119,27 @@
 
                             <!-- Phone -->
                             <div class="hidden truncate sm:block">
-                                {{ equipment.name }}
-                            </div>
-
-                            <!-- Phone -->
-                            <div class="hidden truncate sm:block">
-                                {{ equipment.description }}
+                                {{ trainer.name }}
                             </div>
 
                             <!-- Phone -->
                             <div class="hidden sm:block">
-                                {{ equipment.status }}
+                                {{ trainer.email }}
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="hidden sm:block">
+                                {{ trainer.phone }}
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="hidden sm:block">
+                                {{ trainer.createAt | date: 'dd/MM/YYYY' }}
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="hidden sm:block">
+                                {{ trainer.status }}
                             </div>
                         </div>
                     </ng-container>

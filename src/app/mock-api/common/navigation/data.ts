@@ -16,6 +16,34 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon: 'heroicons_outline:squares-2x2',
         link: '/equipments'
     },
+    {
+        id: 'staffs',
+        title: 'Staff',
+        type: 'basic',
+        icon: 'heroicons_outline:user',
+        link: '/staffs'
+    },
+    {
+        id: 'trainers',
+        title: 'Trainer',
+        type: 'basic',
+        icon: 'heroicons_outline:academic-cap',
+        link: '/trainers'
+    },
+    {
+        id: 'members',
+        title: 'Member',
+        type: 'basic',
+        icon: 'heroicons_outline:users',
+        link: '/members'
+    },
+    {
+        id: 'classes',
+        title: 'Class',
+        type: 'basic',
+        icon: 'heroicons_outline:user-group',
+        link: '/classes'
+    },
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
@@ -31,6 +59,34 @@ export const compactNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:squares-2x2',
         link: '/equipments'
+    },
+    {
+        id: 'staffs',
+        title: 'Staff',
+        type: 'basic',
+        icon: 'heroicons_outline:user',
+        link: '/staffs'
+    },
+    {
+        id: 'trainers',
+        title: 'Trainer',
+        type: 'basic',
+        icon: 'heroicons_outline:academic-cap',
+        link: '/trainers'
+    },
+    {
+        id: 'members',
+        title: 'Member',
+        type: 'basic',
+        icon: 'heroicons_outline:users',
+        link: '/members'
+    },
+    {
+        id: 'classes',
+        title: 'Class',
+        type: 'basic',
+        icon: 'heroicons_outline:user-group',
+        link: '/classes'
     },
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
@@ -48,6 +104,34 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         icon: 'heroicons_outline:squares-2x2',
         link: '/equipments'
     },
+    {
+        id: 'staffs',
+        title: 'Staff',
+        type: 'basic',
+        icon: 'heroicons_outline:user',
+        link: '/staffs'
+    },
+    {
+        id: 'trainers',
+        title: 'Trainer',
+        type: 'basic',
+        icon: 'heroicons_outline:academic-cap',
+        link: '/trainers'
+    },
+    {
+        id: 'members',
+        title: 'Member',
+        type: 'basic',
+        icon: 'heroicons_outline:users',
+        link: '/members'
+    },
+    {
+        id: 'classes',
+        title: 'Class',
+        type: 'basic',
+        icon: 'heroicons_outline:user-group',
+        link: '/classes'
+    },
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
     {
@@ -63,5 +147,33 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:squares-2x2',
         link: '/equipments'
+    },
+    {
+        id: 'staffs',
+        title: 'Staff',
+        type: 'basic',
+        icon: 'heroicons_outline:user',
+        link: '/staffs'
+    },
+    {
+        id: 'trainers',
+        title: 'Trainer',
+        type: 'basic',
+        icon: 'heroicons_outline:academic-cap',
+        link: '/trainers'
+    },
+    {
+        id: 'members',
+        title: 'Member',
+        type: 'basic',
+        icon: 'heroicons_outline:users',
+        link: '/members'
+    },
+    {
+        id: 'classes',
+        title: 'Class',
+        type: 'basic',
+        icon: 'heroicons_outline:user-group',
+        link: '/classes'
     },
 ];
