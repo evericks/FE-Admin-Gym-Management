@@ -36,7 +36,7 @@ export class ClassService {
 
     getClasss(filter: any = {}):
         Observable<{ pagination: Pagination; data: Class[] }> {
-        return this._httpClient.post<{ pagination: Pagination; data: Class[] }>('/api/admin/classes/filter', filter).pipe(
+        return this._httpClient.post<{ pagination: Pagination; data: Class[] }>('/api/classes/filter', filter).pipe(
             tap((response) => {
                 this._pagination.next(response.pagination);
                 this._classes.next(response.data);
@@ -50,7 +50,7 @@ export class ClassService {
     getClassById(id: string): Observable<Class> {
         return this.classes$.pipe(
             take(1),
-            switchMap(() => this._httpClient.get<Class>('/api/admin/classes/' + id).pipe(
+            switchMap(() => this._httpClient.get<Class>('/api/classes/' + id).pipe(
                 map((cl) => {
 
                     // Set value for current class
@@ -69,7 +69,7 @@ export class ClassService {
     createClass(data) {
         return this.classes$.pipe(
             take(1),
-            switchMap((classes) => this._httpClient.post<Class>('/api/admin/classes', data).pipe(
+            switchMap((classes) => this._httpClient.post<Class>('/api/classes', data).pipe(
                 map((newClass) => {
 
                     // Update class list with current page size
@@ -87,7 +87,7 @@ export class ClassService {
     updateClass(id: string, data) {
         return this.classes$.pipe(
             take(1),
-            switchMap((classes) => this._httpClient.put<Class>('/api/admin/classes/' + id, data).pipe(
+            switchMap((classes) => this._httpClient.put<Class>('/api/classes/' + id, data).pipe(
                 map((updatedClass) => {
 
                     // Find and replace updated class
@@ -107,7 +107,7 @@ export class ClassService {
     deleteClass(id: string): Observable<boolean> {
         return this.classes$.pipe(
             take(1),
-            switchMap(classes => this._httpClient.delete('/api/admin/classes/' + id).pipe(
+            switchMap(classes => this._httpClient.delete('/api/classes/' + id).pipe(
                 map((isDeleted: boolean) => {
                     // Find the index of the deleted product
                     const index = classes.findIndex(item => item.id === id);
