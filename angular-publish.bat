@@ -65,10 +65,10 @@ echo Creating web.config file...
   echo     ^</rewrite^>
   echo   ^</system.webServer^>
   echo ^</configuration^>
-) > "dist\fuse\web.config"
+) > "dist\fuse\browser\web.config"
 
 IF EXIST "C:\inetpub\wwwroot\fe-admin-gym-management" (
-    echo Deleting existing files in fe-invoice...
+    echo Deleting existing files in fe-admin-gym-management...
     CALL rmdir /s /q "C:\inetpub\wwwroot\fe-admin-gym-management"
 )
 
