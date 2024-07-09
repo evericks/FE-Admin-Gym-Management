@@ -67,7 +67,7 @@ echo Creating web.config file...
   echo ^</configuration^>
 ) > "dist\fuse\web.config"
 
-IF EXIST "C:\inetpub\wwwroot\fe-trade" (
+IF EXIST "C:\inetpub\wwwroot\fe-admin-gym-management" (
     echo Deleting existing files in fe-invoice...
     CALL rmdir /s /q "C:\inetpub\wwwroot\fe-admin-gym-management"
 )
@@ -76,7 +76,7 @@ REM Tạo lại thư mục đích
 CALL mkdir "C:\inetpub\wwwroot\fe-admin-gym-management"
 
 REM Sao chép các file đã build vào thư mục đích
-echo Copying built files to fe-trade...
+echo Copying built files to fe-admin-gym-management...
 CALL xcopy "dist\fuse\browser\*" "C:\inetpub\wwwroot\fe-admin-gym-management" /s /e /y
 
 REM Thông báo hoàn thành và dừng màn hình
