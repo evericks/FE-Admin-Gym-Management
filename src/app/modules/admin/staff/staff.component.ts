@@ -15,6 +15,9 @@ import { Pagination } from 'app/types/pagination.type';
 import { Observable, Subject, debounceTime, filter, map, merge, of, switchMap, takeUntil } from 'rxjs';
 import { StaffService } from './staff.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateStaffComponent } from './create/create-staff.component';
+import { StaffDetailComponent } from './detail/staff-detail.component';
 
 @Component({
     selector: 'staff',
@@ -47,6 +50,7 @@ export class StaffComponent implements OnInit, AfterViewInit {
         private _staffService: StaffService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: UntypedFormBuilder,
+        private _dialog: MatDialog
     ) { }
 
     ngOnInit(): void {
@@ -167,5 +171,29 @@ export class StaffComponent implements OnInit, AfterViewInit {
             this.flashMessage = this.message = null;
             this._changeDetectorRef.markForCheck();
         }, time);
+    }
+
+    openCreateStaffDialog() {
+        this._dialog.open(CreateStaffComponent, {
+            width: '720px'
+        }).afterClosed().subscribe(result => {
+            if (result === 'success') {
+                this.showFlashMessage('success', 'Create staff successful', 3000);
+            }
+        })
+    }
+
+    openStaffDetailDialog(id: string) {
+        this._staffService.getStaffById(id).subscribe(staff => {
+            if (staff) {
+                this._dialog.open(StaffDetailComponent, {
+                    width: '720px'
+                }).afterClosed().subscribe(result => {
+                    if (result === 'success') {
+                        this.showFlashMessage('success', 'Update staff successful', 3000);
+                    }
+                })
+            }
+        })
     }
 }
