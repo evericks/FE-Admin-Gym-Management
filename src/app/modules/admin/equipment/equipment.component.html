@@ -19,6 +19,7 @@
                 mat-raised-button
                 class="flex min-w-fit gap-2"
                 color="primary"
+                (click)="openCreateEquipmentDialog()"
             >
                 <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
                 <span> Create </span>
@@ -87,7 +88,13 @@
                             <!-- Phone -->
                             <div class="hidden sm:block">
                                 <div class="flex gap-3">
-                                    <span>
+                                    <span
+                                        (click)="
+                                            openEquipmentDetailDialog(
+                                                equipment.id
+                                            )
+                                        "
+                                    >
                                         <mat-icon
                                             class="cursor-pointer text-blue-500 icon-size-5"
                                             [svgIcon]="'heroicons_outline:eye'"

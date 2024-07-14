@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { EquipmentComponent } from 'app/modules/admin/equipment/equipment.component';
 import { EquipmentService } from './equipment.service';
 
