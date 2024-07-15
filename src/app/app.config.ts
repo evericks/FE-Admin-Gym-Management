@@ -1,8 +1,9 @@
 import { provideHttpClient } from '@angular/common/http';
 import { APP_INITIALIZER, ApplicationConfig, inject } from '@angular/core';
-import { LuxonDateAdapter } from '@angular/material-luxon-adapter';
-import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { LuxonDateAdapter, MAT_LUXON_DATE_ADAPTER_OPTIONS } from '@angular/material-luxon-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
+
 import {
     PreloadAllModules,
     provideRouter,
@@ -44,8 +45,18 @@ export const appConfig: ApplicationConfig = {
                     monthYearLabel: 'LLL yyyy',
                     dateA11yLabel: 'DD',
                     monthYearA11yLabel: 'LLLL yyyy',
-                },
+                }
             },
+        },
+        {
+            provide: MAT_DATE_LOCALE,
+            useValue: 'vi-VN'
+        },
+        {
+            provide: MAT_LUXON_DATE_ADAPTER_OPTIONS,
+            useValue: {
+                useUtc: true
+            }
         },
 
         // Transloco Config

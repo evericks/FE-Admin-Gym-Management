@@ -5,5 +5,7 @@ export interface Trainer {
     name: string,
     avatarUrl?: string,
     createAt: string,
+    dateOfBirth: string,
+    gender: string,
     status: string
 }

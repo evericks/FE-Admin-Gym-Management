@@ -2,7 +2,9 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatOptionModule } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -10,11 +12,12 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { FuseAlertComponent } from '@fuse/components/alert';
-import { Trainer } from 'app/types/trainer.type';
 import { Pagination } from 'app/types/pagination.type';
+import { Trainer } from 'app/types/trainer.type';
 import { Observable, Subject, debounceTime, filter, map, merge, of, switchMap, takeUntil } from 'rxjs';
+import { CreateTrainerComponent } from './create/create-trainer.component';
+import { TrainerDetailComponent } from './detail/trainer-detail.component';
 import { TrainerService } from './trainer.service';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
     selector: 'trainer',
@@ -47,6 +50,7 @@ export class TrainerComponent implements OnInit, AfterViewInit {
         private _trainerService: TrainerService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: UntypedFormBuilder,
+        private _dialog: MatDialog
     ) { }
 
     ngOnInit(): void {
@@ -167,5 +171,29 @@ export class TrainerComponent implements OnInit, AfterViewInit {
             this.flashMessage = this.message = null;
             this._changeDetectorRef.markForCheck();
         }, time);
+    }
+
+    openCreateTrainerDialog() {
+        this._dialog.open(CreateTrainerComponent, {
+            width: '720px'
+        }).afterClosed().subscribe(result => {
+            if (result === 'success') {
+                this.showFlashMessage('success', 'Create trainer successful', 3000);
+            }
+        })
+    }
+
+    openTrainerDetailDialog(id: string) {
+        this._trainerService.getTrainerById(id).subscribe(trainer => {
+            if (trainer) {
+                this._dialog.open(TrainerDetailComponent, {
+                    width: '720px'
+                }).afterClosed().subscribe(result => {
+                    if (result === 'success') {
+                        this.showFlashMessage('success', 'Update trainer successful', 3000);
+                    }
+                })
+            }
+        })
     }
 }
