@@ -2,7 +2,9 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatOptionModule } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -10,25 +12,23 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { FuseAlertComponent } from '@fuse/components/alert';
-import { Member } from 'app/types/member.type';
 import { Pagination } from 'app/types/pagination.type';
 import { Observable, Subject, debounceTime, filter, map, merge, of, switchMap, takeUntil } from 'rxjs';
-import { MemberService } from './member.service';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MemberDetailComponent } from './detail/member-detail.component';
-import { CreateMemberComponent } from './create/create-member.component';
-import { MatDialog } from '@angular/material/dialog';
+import { CategoryService } from './category.service';
+import { CreateCategoryComponent } from './create/create-category.component';
+import { CategoryDetailComponent } from './detail/category-detail.component';
+import { Category } from 'app/types/category.type';
 
 @Component({
-    selector: 'member',
+    selector: 'category',
     standalone: true,
-    templateUrl: './member.component.html',
-    styleUrls: ['./member.component.css'],
+    templateUrl: './category.component.html',
+    styleUrls: ['./category.component.css'],
     encapsulation: ViewEncapsulation.None,
     imports: [CommonModule, MatButtonModule, MatIconModule, FormsModule, MatFormFieldModule, ReactiveFormsModule, MatInputModule, MatSortModule, MatPaginatorModule,
         MatSelectModule, MatOptionModule, FuseAlertComponent, MatCheckboxModule]
 })
-export class MemberComponent implements OnInit, AfterViewInit {
+export class CategoryComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
     @ViewChildren('inputField') inputFields: QueryList<ElementRef>;
@@ -36,7 +36,7 @@ export class MemberComponent implements OnInit, AfterViewInit {
     searchInputControl: UntypedFormControl = new UntypedFormControl();
     filterForm: UntypedFormGroup;
 
-    members$: Observable<Member[]>;
+    categories$: Observable<Category[]>;
     pagination: Pagination;
     isLoading: boolean = false;
     flashMessage: 'success' | 'error' | null = null;
@@ -47,7 +47,7 @@ export class MemberComponent implements OnInit, AfterViewInit {
      * Constructor
      */
     constructor(
-        private _memberService: MemberService,
+        private _categoryService: CategoryService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: UntypedFormBuilder,
         private _dialog: MatDialog
@@ -55,11 +55,11 @@ export class MemberComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
 
-        // Get the members
-        this.getMembers();
+        // Get the categories
+        this.getCategorys();
 
         // Get the pagination
-        this._memberService.pagination$
+        this._categoryService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((pagination: Pagination) => {
 
@@ -113,8 +113,8 @@ export class MemberComponent implements OnInit, AfterViewInit {
         }
     }
 
-    private getMembers() {
-        this.members$ = this._memberService.members$;
+    private getCategorys() {
+        this.categories$ = this._categoryService.categories$;
     }
 
     private setPaginationFilter(pageIndex: number, pageSize: number) {
@@ -150,9 +150,9 @@ export class MemberComponent implements OnInit, AfterViewInit {
             debounceTime(500),
             switchMap((filter) => {
                 this.isLoading = true;
-                this._memberService.getMembers(filter).subscribe(result => {
+                this._categoryService.getCategories(filter).subscribe(result => {
                     if (result.data.length == 0) {
-                        this.showFlashMessage('error', 'No items were found', 3000)
+                        this.showFlashMessage('error', 'No items were found', 3000);
                     }
                 });
                 return of(true);
@@ -173,24 +173,24 @@ export class MemberComponent implements OnInit, AfterViewInit {
         }, time);
     }
 
-    openCreateMemberDialog() {
-        this._dialog.open(CreateMemberComponent, {
+    openCreateCategoryDialog() {
+        this._dialog.open(CreateCategoryComponent, {
             width: '720px'
         }).afterClosed().subscribe(result => {
             if (result === 'success') {
-                this.showFlashMessage('success', 'Create member successful', 3000);
+                this.showFlashMessage('success', 'Create category successful', 3000);
             }
         })
     }
 
-    openMemberDetailDialog(id: string) {
-        this._memberService.getMemberById(id).subscribe(member => {
-            if (member) {
-                this._dialog.open(MemberDetailComponent, {
+    openCategoryDetailDialog(id: string) {
+        this._categoryService.getCategoryById(id).subscribe(category => {
+            if (category) {
+                this._dialog.open(CategoryDetailComponent, {
                     width: '720px'
                 }).afterClosed().subscribe(result => {
                     if (result === 'success') {
-                        this.showFlashMessage('success', 'Update member successful', 3000);
+                        this.showFlashMessage('success', 'Update category successful', 3000);
                     }
                 })
             }

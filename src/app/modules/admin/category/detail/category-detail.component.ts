@@ -7,41 +7,41 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { Equipment } from 'app/types/equipment.type';
-import { EquipmentService } from '../equipment.service';
+import { Category } from 'app/types/category.type';
+import { CategoryService } from '../category.service';
 
 @Component({
-    selector: 'equipment-detail',
+    selector: 'category-detail',
     standalone: true,
-    templateUrl: './equipment-detail.component.html',
+    templateUrl: './category-detail.component.html',
     imports: [CommonModule, MatButtonModule, MatIconModule, MatFormFieldModule, FormsModule, ReactiveFormsModule, MatInputModule, MatSelectModule]
 })
-export class EquipmentDetailComponent implements OnInit {
-    equipment: Equipment;
+export class CategoryDetailComponent implements OnInit {
+    category: Category;
     previewUrl: string | ArrayBuffer;
     selectedFile: File;
     uploadMessage: string;
-    updateEquipmentForm: UntypedFormGroup;
+    updateCategoryForm: UntypedFormGroup;
 
     constructor(
-        public matDialogRef: MatDialogRef<EquipmentDetailComponent>,
+        public matDialogRef: MatDialogRef<CategoryDetailComponent>,
         private _formBuilder: UntypedFormBuilder,
-        private _equipmentService: EquipmentService
+        private _categoryService: CategoryService
     ) { }
 
     ngOnInit(): void {
-        this._equipmentService.equipment$.subscribe(equipment => {
-            this.equipment = equipment;
-            this.previewUrl = equipment.thumbnailUrl;
-            this.initEquipmentForm();
+        this._categoryService.category$.subscribe(category => {
+            this.category = category;
+            this.previewUrl = category.thumbnailUrl;
+            this.initCategoryForm();
         });
     }
 
-    initEquipmentForm() {
-        this.updateEquipmentForm = this._formBuilder.group({
-            name: [this.equipment.name, [Validators.required]],
-            description: [this.equipment.description, [Validators.required]],
-            status: [this.equipment.status, [Validators.required]]
+    initCategoryForm() {
+        this.updateCategoryForm = this._formBuilder.group({
+            name: [this.category.name, [Validators.required]],
+            description: [this.category.description, [Validators.required]],
+            status: [this.category.status, [Validators.required]],
         });
     }
 
@@ -58,20 +58,20 @@ export class EquipmentDetailComponent implements OnInit {
         }
     }
 
-    updateEquipment() {
-        if (this.updateEquipmentForm.valid) {
+    updateCategory() {
+        if (this.updateCategoryForm.valid) {
             const formData = new FormData();
-            for (const key in this.updateEquipmentForm.controls) {
-                if (this.updateEquipmentForm.controls.hasOwnProperty(key)) {
-                    formData.append(key, this.updateEquipmentForm.controls[key].value);
+            for (const key in this.updateCategoryForm.controls) {
+                if (this.updateCategoryForm.controls.hasOwnProperty(key)) {
+                    formData.append(key, this.updateCategoryForm.controls[key].value);
                 }
             }
             if (this.selectedFile) {
                 formData.append('thumbnail', this.selectedFile);
             }
-            this._equipmentService.updateEquipment(this.equipment.id, formData).subscribe({
-                next: (equipment) => {
-                    if (equipment) {
+            this._categoryService.updateCategory(this.category.id, formData).subscribe({
+                next: (category) => {
+                    if (category) {
                         this.matDialogRef.close('success');
                     }
                 }
@@ -79,7 +79,7 @@ export class EquipmentDetailComponent implements OnInit {
         }
     }
 
-    onEquipmentStatusChange(event: any) {
-        this.updateEquipmentForm.controls['status'].setValue(event.value);
+    onCategoryStatusChange(event: any) {
+        this.updateCategoryForm.controls['status'].setValue(event.value);
     }
 }

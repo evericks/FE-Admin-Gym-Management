@@ -3,7 +3,7 @@
     <div
         class="flex h-16 flex-0 items-center justify-between bg-primary pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5"
     >
-        <div class="text-lg font-medium">Equipment</div>
+        <div class="text-lg font-medium">Category</div>
         <button mat-icon-button (click)="matDialogRef.close()" [tabIndex]="-1">
             <mat-icon
                 class="text-current"
@@ -12,8 +12,8 @@
         </button>
     </div>
     <div class="font-poppins overflow-y-scroll p-8 dark:bg-gray-800">
-        <ng-container *ngIf="updateEquipmentForm">
-            <form [formGroup]="updateEquipmentForm">
+        <ng-container *ngIf="updateCategoryForm">
+            <form [formGroup]="updateCategoryForm">
                 <section class="container mx-auto w-full items-center">
                     <div class="px-4 py-6">
                         <div
@@ -99,8 +99,8 @@
                     <mat-form-field>
                         <mat-label>Status</mat-label>
                         <mat-select
-                            [(value)]="equipment.status"
-                            (selectionChange)="onEquipmentStatusChange($event)"
+                            [(value)]="category.status"
+                            (selectionChange)="onCategoryStatusChange($event)"
                         >
                             <mat-option [value]="'Active'">Active</mat-option>
                             <mat-option [value]="'Unactive'"
@@ -120,7 +120,7 @@
 
                 <div class="flex justify-end">
                     <button
-                        (click)="updateEquipment()"
+                        (click)="updateCategory()"
                         mat-raised-button
                         color="primary"
                         class="flex min-w-fit gap-2"

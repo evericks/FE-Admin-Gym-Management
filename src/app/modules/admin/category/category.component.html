@@ -12,14 +12,14 @@
             </div>
         }
         <!-- Title -->
-        <div class="text-4xl font-extrabold tracking-tight">Members</div>
+        <div class="text-4xl font-extrabold tracking-tight">Categories</div>
         <!-- Actions -->
         <div class="mt-6 flex shrink-0 items-center gap-3 sm:ml-4 sm:mt-0">
             <button
-                (click)="openCreateMemberDialog()"
                 mat-raised-button
                 class="flex min-w-fit gap-2"
                 color="primary"
+                (click)="openCreateCategoryDialog()"
             >
                 <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
                 <span> Create </span>
@@ -49,41 +49,50 @@
         </div>
     </div>
 
-    <!-- Members list -->
+    <!-- Invoices list -->
     <div
         appHorizontalScroll
         class="flex flex-auto flex-col overflow-scroll sm:mb-18"
     >
-        <ng-container *ngIf="members$ | async as members">
+        <ng-container *ngIf="categories$ | async as categories">
             <div class="grid">
                 <!-- Header -->
                 <div
-                    class="member-grid text-secondary sticky top-0 z-10 grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                    class="category-grid text-secondary sticky top-0 z-10 grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                     matSort
                     matSortDisableClear
                 >
                     <div class="hidden sm:block">Action</div>
-                    <div class="hidden sm:block">Avatar</div>
-                    <div class="hidden sm:block">Name</div>
-                    <div class="hidden sm:block">Email</div>
-                    <div class="hidden sm:block">Phone</div>
-                    <div class="hidden sm:block">CreateAt</div>
-                    <div class="hidden sm:block">Status</div>
+                    <div class="hidden sm:block">Thumbnail</div>
+                    <div class="hidden sm:block" [mat-sort-header]="'Name'">
+                        Name
+                    </div>
+                    <div
+                        class="hidden sm:block"
+                        [mat-sort-header]="'Description'"
+                    >
+                        Description
+                    </div>
+                    <div class="hidden sm:block" [mat-sort-header]="'Status'">
+                        Status
+                    </div>
                 </div>
                 <!-- Rows -->
-                <ng-container *ngIf="members$ | async as members">
+                <ng-container *ngIf="categories$ | async as categories">
                     <ng-container
-                        *ngFor="let member of members; trackBy: trackByFn"
+                        *ngFor="let category of categories; trackBy: trackByFn"
                     >
                         <div
-                            class="member-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                            class="category-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
                         >
                             <!-- Phone -->
                             <div class="hidden sm:block">
                                 <div class="flex gap-3">
                                     <span
                                         (click)="
-                                            openMemberDetailDialog(member.id)
+                                            openCategoryDetailDialog(
+                                                category.id
+                                            )
                                         "
                                     >
                                         <mat-icon
@@ -103,19 +112,20 @@
                                 </div>
                             </div>
 
+                            <!-- Name -->
                             <div class="flex items-center">
                                 <div
                                     class="relative mr-6 flex h-12 w-12 flex-0 items-center justify-center overflow-hidden rounded border"
                                 >
                                     <img
                                         class="w-8"
-                                        *ngIf="member.avatarUrl"
-                                        [alt]="'Member image'"
-                                        [src]="member.avatarUrl"
+                                        *ngIf="category.thumbnailUrl"
+                                        [alt]="'Category image'"
+                                        [src]="category.thumbnailUrl"
                                     />
                                     <div
                                         class="flex h-full w-full items-center justify-center text-center text-xs font-semibold uppercase leading-none"
-                                        *ngIf="!member.avatarUrl"
+                                        *ngIf="!category.thumbnailUrl"
                                     >
                                         NO THUMB
                                     </div>
@@ -124,27 +134,17 @@
 
                             <!-- Phone -->
                             <div class="hidden truncate sm:block">
-                                {{ member.name }}
+                                {{ category.name }}
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="hidden truncate sm:block">
+                                {{ category.description }}
                             </div>
 
                             <!-- Phone -->
                             <div class="hidden sm:block">
-                                {{ member.email }}
-                            </div>
-
-                            <!-- Phone -->
-                            <div class="hidden sm:block">
-                                {{ member.phone }}
-                            </div>
-
-                            <!-- Phone -->
-                            <div class="hidden sm:block">
-                                {{ member.createAt | date: 'dd/MM/YYYY' }}
-                            </div>
-
-                            <!-- Phone -->
-                            <div class="hidden sm:block">
-                                {{ member.status }}
+                                {{ category.status }}
                             </div>
                         </div>
                     </ng-container>

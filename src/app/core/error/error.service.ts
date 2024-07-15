@@ -18,9 +18,28 @@ export class ErrorService {
     showServerError(message: string) {
         this.errorSubject.next(message);
         this._fuseConfirmationService.open({
-            title: 'Server Error',
+            title: 'Internal Server Error',
             message: message,
             actions: {
+                cancel: {
+                    show: false
+                }
+            }
+        });
+    }
+
+    showConflictError(message: string) {
+        this.errorSubject.next(message);
+        this._fuseConfirmationService.open({
+            title: 'Conflict',
+            message: message,
+            icon: {
+                color: 'primary',
+            },
+            actions: {
+                confirm: {
+                    color: 'primary'
+                },
                 cancel: {
                     show: false
                 }

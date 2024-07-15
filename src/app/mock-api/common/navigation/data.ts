@@ -38,12 +38,27 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link: '/members'
     },
     {
+        id: 'categories',
+        title: 'Category',
+        type: 'basic',
+        icon: 'heroicons_outline:queue-list',
+        link: '/categories'
+    },
+    {
+        id: 'courses',
+        title: 'Course',
+        type: 'basic',
+        icon: 'heroicons_outline:book-open',
+        link: '/courses'
+    },
+    {
         id: 'classes',
         title: 'Class',
         type: 'basic',
         icon: 'heroicons_outline:user-group',
         link: '/classes'
     },
+
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
@@ -82,12 +97,27 @@ export const compactNavigation: FuseNavigationItem[] = [
         link: '/members'
     },
     {
+        id: 'categories',
+        title: 'Category',
+        type: 'basic',
+        icon: 'heroicons_outline:queue-list',
+        link: '/categories'
+    },
+    {
+        id: 'courses',
+        title: 'Course',
+        type: 'basic',
+        icon: 'heroicons_outline:book-open',
+        link: '/courses'
+    },
+    {
         id: 'classes',
         title: 'Class',
         type: 'basic',
         icon: 'heroicons_outline:user-group',
         link: '/classes'
     },
+
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
     {
@@ -126,12 +156,27 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         link: '/members'
     },
     {
+        id: 'categories',
+        title: 'Category',
+        type: 'basic',
+        icon: 'heroicons_outline:queue-list',
+        link: '/categories'
+    },
+    {
+        id: 'courses',
+        title: 'Course',
+        type: 'basic',
+        icon: 'heroicons_outline:book-open',
+        link: '/courses'
+    },
+    {
         id: 'classes',
         title: 'Class',
         type: 'basic',
         icon: 'heroicons_outline:user-group',
         link: '/classes'
     },
+
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
     {
@@ -168,6 +213,20 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:users',
         link: '/members'
+    },
+    {
+        id: 'categories',
+        title: 'Category',
+        type: 'basic',
+        icon: 'heroicons_outline:queue-list',
+        link: '/categories'
+    },
+    {
+        id: 'courses',
+        title: 'Course',
+        type: 'basic',
+        icon: 'heroicons_outline:book-open',
+        link: '/courses'
     },
     {
         id: 'classes',

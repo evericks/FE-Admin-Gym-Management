@@ -2,7 +2,9 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatOptionModule } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -10,25 +12,24 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { FuseAlertComponent } from '@fuse/components/alert';
-import { Member } from 'app/types/member.type';
 import { Pagination } from 'app/types/pagination.type';
 import { Observable, Subject, debounceTime, filter, map, merge, of, switchMap, takeUntil } from 'rxjs';
-import { MemberService } from './member.service';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MemberDetailComponent } from './detail/member-detail.component';
-import { CreateMemberComponent } from './create/create-member.component';
-import { MatDialog } from '@angular/material/dialog';
+import { CourseService } from './course.service';
+import { CreateCourseComponent } from './create/create-course.component';
+import { CourseDetailComponent } from './detail/course-detail.component';
+import { Course } from 'app/types/course.type';
+import { CategoryService } from '../category/category.service';
 
 @Component({
-    selector: 'member',
+    selector: 'course',
     standalone: true,
-    templateUrl: './member.component.html',
-    styleUrls: ['./member.component.css'],
+    templateUrl: './course.component.html',
+    styleUrls: ['./course.component.css'],
     encapsulation: ViewEncapsulation.None,
     imports: [CommonModule, MatButtonModule, MatIconModule, FormsModule, MatFormFieldModule, ReactiveFormsModule, MatInputModule, MatSortModule, MatPaginatorModule,
         MatSelectModule, MatOptionModule, FuseAlertComponent, MatCheckboxModule]
 })
-export class MemberComponent implements OnInit, AfterViewInit {
+export class CourseComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
     @ViewChildren('inputField') inputFields: QueryList<ElementRef>;
@@ -36,7 +37,7 @@ export class MemberComponent implements OnInit, AfterViewInit {
     searchInputControl: UntypedFormControl = new UntypedFormControl();
     filterForm: UntypedFormGroup;
 
-    members$: Observable<Member[]>;
+    courses$: Observable<Course[]>;
     pagination: Pagination;
     isLoading: boolean = false;
     flashMessage: 'success' | 'error' | null = null;
@@ -47,7 +48,8 @@ export class MemberComponent implements OnInit, AfterViewInit {
      * Constructor
      */
     constructor(
-        private _memberService: MemberService,
+        private _courseService: CourseService,
+        private _categoryService: CategoryService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: UntypedFormBuilder,
         private _dialog: MatDialog
@@ -55,11 +57,11 @@ export class MemberComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
 
-        // Get the members
-        this.getMembers();
+        // Get the courses
+        this.getCourses();
 
         // Get the pagination
-        this._memberService.pagination$
+        this._courseService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((pagination: Pagination) => {
 
@@ -113,8 +115,8 @@ export class MemberComponent implements OnInit, AfterViewInit {
         }
     }
 
-    private getMembers() {
-        this.members$ = this._memberService.members$;
+    private getCourses() {
+        this.courses$ = this._courseService.courses$;
     }
 
     private setPaginationFilter(pageIndex: number, pageSize: number) {
@@ -150,9 +152,9 @@ export class MemberComponent implements OnInit, AfterViewInit {
             debounceTime(500),
             switchMap((filter) => {
                 this.isLoading = true;
-                this._memberService.getMembers(filter).subscribe(result => {
+                this._courseService.getCourses(filter).subscribe(result => {
                     if (result.data.length == 0) {
-                        this.showFlashMessage('error', 'No items were found', 3000)
+                        this.showFlashMessage('error', 'No items were found', 3000);
                     }
                 });
                 return of(true);
@@ -173,27 +175,31 @@ export class MemberComponent implements OnInit, AfterViewInit {
         }, time);
     }
 
-    openCreateMemberDialog() {
-        this._dialog.open(CreateMemberComponent, {
-            width: '720px'
-        }).afterClosed().subscribe(result => {
-            if (result === 'success') {
-                this.showFlashMessage('success', 'Create member successful', 3000);
-            }
-        })
+    openCreateCourseDialog() {
+        this._categoryService.getCategories().subscribe(() => {
+            this._dialog.open(CreateCourseComponent, {
+                width: '720px'
+            }).afterClosed().subscribe(result => {
+                if (result === 'success') {
+                    this.showFlashMessage('success', 'Create course successful', 3000);
+                }
+            });
+        });
     }
 
-    openMemberDetailDialog(id: string) {
-        this._memberService.getMemberById(id).subscribe(member => {
-            if (member) {
-                this._dialog.open(MemberDetailComponent, {
-                    width: '720px'
-                }).afterClosed().subscribe(result => {
-                    if (result === 'success') {
-                        this.showFlashMessage('success', 'Update member successful', 3000);
-                    }
-                })
-            }
-        })
+    openCourseDetailDialog(id: string) {
+        this._categoryService.getCategories().subscribe(() => {
+            this._courseService.getCourseById(id).subscribe(course => {
+                if (course) {
+                    this._dialog.open(CourseDetailComponent, {
+                        width: '720px'
+                    }).afterClosed().subscribe(result => {
+                        if (result === 'success') {
+                            this.showFlashMessage('success', 'Update course successful', 3000);
+                        }
+                    })
+                }
+            })
+        });
     }
 }

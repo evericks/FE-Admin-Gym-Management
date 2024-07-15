@@ -3,7 +3,7 @@
     <div
         class="flex h-16 flex-0 items-center justify-between bg-primary pl-6 pr-3 text-on-primary sm:pl-8 sm:pr-5"
     >
-        <div class="text-lg font-medium">Equipment</div>
+        <div class="text-lg font-medium">Member</div>
         <button mat-icon-button (click)="matDialogRef.close()" [tabIndex]="-1">
             <mat-icon
                 class="text-current"
@@ -12,8 +12,8 @@
         </button>
     </div>
     <div class="font-poppins overflow-y-scroll p-8 dark:bg-gray-800">
-        <ng-container *ngIf="updateEquipmentForm">
-            <form [formGroup]="updateEquipmentForm">
+        <ng-container *ngIf="updateMemberForm">
+            <form [formGroup]="updateMemberForm">
                 <section class="container mx-auto w-full items-center">
                     <div class="px-4 py-6">
                         <div
@@ -87,20 +87,20 @@
                         </div>
                     </div>
                 </section>
-                <div class="grid grid-cols-4 gap-4">
-                    <mat-form-field class="col-span-3 w-full">
-                        <mat-label>Name</mat-label>
+                <div class="flex gap-4">
+                    <mat-form-field class="w-full">
+                        <mat-label>Email</mat-label>
                         <input
                             matInput
-                            placeholder="Name"
-                            [formControlName]="'name'"
+                            placeholder="Email"
+                            [formControlName]="'email'"
                         />
                     </mat-form-field>
-                    <mat-form-field>
+                    <mat-form-field class="w-full">
                         <mat-label>Status</mat-label>
                         <mat-select
-                            [(value)]="equipment.status"
-                            (selectionChange)="onEquipmentStatusChange($event)"
+                            [(value)]="member.status"
+                            (selectionChange)="onMemberStatusChange($event)"
                         >
                             <mat-option [value]="'Active'">Active</mat-option>
                             <mat-option [value]="'Unactive'"
@@ -109,18 +109,54 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <mat-form-field class="w-full">
-                    <mat-label>Description</mat-label>
-                    <textarea
-                        matInput
-                        placeholder="Name"
-                        [formControlName]="'description'"
-                    ></textarea>
-                </mat-form-field>
-
+                <div class="flex gap-4">
+                    <mat-form-field class="w-full">
+                        <mat-label>Name</mat-label>
+                        <input
+                            matInput
+                            placeholder="Name"
+                            [formControlName]="'name'"
+                        />
+                    </mat-form-field>
+                    <mat-form-field class="w-full">
+                        <mat-label>Phone</mat-label>
+                        <input
+                            matInput
+                            placeholder="Phone"
+                            [formControlName]="'phone'"
+                        />
+                    </mat-form-field>
+                </div>
+                <div class="flex gap-4">
+                    <mat-form-field class="w-full">
+                        <mat-label>Gender</mat-label>
+                        <mat-select
+                            [(value)]="member.gender"
+                            (selectionChange)="onMemberGenderChange($event)"
+                        >
+                            <mat-option [value]="'Male'">Male</mat-option>
+                            <mat-option [value]="'Female'">Female</mat-option>
+                            <mat-option [value]="'Orther'">Orther</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="w-full">
+                        <mat-label>Date Of Birth</mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="picker"
+                            [formControlName]="'dateOfBirth'"
+                        />
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle
+                            matIconSuffix
+                            [for]="picker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
                 <div class="flex justify-end">
                     <button
-                        (click)="updateEquipment()"
+                        (click)="updateMember()"
                         mat-raised-button
                         color="primary"
                         class="flex min-w-fit gap-2"

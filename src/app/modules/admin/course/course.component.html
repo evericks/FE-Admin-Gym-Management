@@ -12,14 +12,14 @@
             </div>
         }
         <!-- Title -->
-        <div class="text-4xl font-extrabold tracking-tight">Members</div>
+        <div class="text-4xl font-extrabold tracking-tight">Courses</div>
         <!-- Actions -->
         <div class="mt-6 flex shrink-0 items-center gap-3 sm:ml-4 sm:mt-0">
             <button
-                (click)="openCreateMemberDialog()"
                 mat-raised-button
                 class="flex min-w-fit gap-2"
                 color="primary"
+                (click)="openCreateCourseDialog()"
             >
                 <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
                 <span> Create </span>
@@ -49,41 +49,41 @@
         </div>
     </div>
 
-    <!-- Members list -->
+    <!-- Invoices list -->
     <div
         appHorizontalScroll
         class="flex flex-auto flex-col overflow-scroll sm:mb-18"
     >
-        <ng-container *ngIf="members$ | async as members">
+        <ng-container *ngIf="courses$ | async as courses">
             <div class="grid">
                 <!-- Header -->
                 <div
-                    class="member-grid text-secondary sticky top-0 z-10 grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
+                    class="course-grid text-secondary sticky top-0 z-10 grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
                     matSort
                     matSortDisableClear
                 >
                     <div class="hidden sm:block">Action</div>
-                    <div class="hidden sm:block">Avatar</div>
+                    <div class="hidden sm:block">Thumbnail</div>
                     <div class="hidden sm:block">Name</div>
-                    <div class="hidden sm:block">Email</div>
-                    <div class="hidden sm:block">Phone</div>
-                    <div class="hidden sm:block">CreateAt</div>
-                    <div class="hidden sm:block">Status</div>
+                    <div class="hidden sm:block">Description</div>
+                    <div class="hidden sm:block">Total Members</div>
+                    <div class="hidden sm:block">Total Slots</div>
+                    <div class="hidden sm:block">Lesson Time</div>
                 </div>
                 <!-- Rows -->
-                <ng-container *ngIf="members$ | async as members">
+                <ng-container *ngIf="courses$ | async as courses">
                     <ng-container
-                        *ngFor="let member of members; trackBy: trackByFn"
+                        *ngFor="let course of courses; trackBy: trackByFn"
                     >
                         <div
-                            class="member-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
+                            class="course-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
                         >
                             <!-- Phone -->
                             <div class="hidden sm:block">
                                 <div class="flex gap-3">
                                     <span
                                         (click)="
-                                            openMemberDetailDialog(member.id)
+                                            openCourseDetailDialog(course.id)
                                         "
                                     >
                                         <mat-icon
@@ -103,19 +103,20 @@
                                 </div>
                             </div>
 
+                            <!-- Name -->
                             <div class="flex items-center">
                                 <div
                                     class="relative mr-6 flex h-12 w-12 flex-0 items-center justify-center overflow-hidden rounded border"
                                 >
                                     <img
                                         class="w-8"
-                                        *ngIf="member.avatarUrl"
-                                        [alt]="'Member image'"
-                                        [src]="member.avatarUrl"
+                                        *ngIf="course.thumbnailUrl"
+                                        [alt]="'Course image'"
+                                        [src]="course.thumbnailUrl"
                                     />
                                     <div
                                         class="flex h-full w-full items-center justify-center text-center text-xs font-semibold uppercase leading-none"
-                                        *ngIf="!member.avatarUrl"
+                                        *ngIf="!course.thumbnailUrl"
                                     >
                                         NO THUMB
                                     </div>
@@ -124,27 +125,27 @@
 
                             <!-- Phone -->
                             <div class="hidden truncate sm:block">
-                                {{ member.name }}
+                                {{ course.name }}
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="hidden truncate sm:block">
+                                {{ course.description }}
                             </div>
 
                             <!-- Phone -->
                             <div class="hidden sm:block">
-                                {{ member.email }}
+                                {{ course.totalMember }}
                             </div>
 
                             <!-- Phone -->
                             <div class="hidden sm:block">
-                                {{ member.phone }}
+                                {{ course.totalSlot }}
                             </div>
 
                             <!-- Phone -->
                             <div class="hidden sm:block">
-                                {{ member.createAt | date: 'dd/MM/YYYY' }}
-                            </div>
-
-                            <!-- Phone -->
-                            <div class="hidden sm:block">
-                                {{ member.status }}
+                                {{ course.lessonTime }}
                             </div>
                         </div>
                     </ng-container>

@@ -4,6 +4,8 @@ export interface Member {
     name: string,
     status: string,
     phone?: string,
+    dateOfBirth?: string,
+    gender?: string,
     avatarUrl?: string,
     createAt: string,
     validDate: string
