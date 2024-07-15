@@ -15,6 +15,7 @@ import { Pagination } from 'app/types/pagination.type';
 import { Observable, Subject, debounceTime, filter, map, merge, of, switchMap, takeUntil } from 'rxjs';
 import { ClassService } from './class.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'class',
@@ -23,7 +24,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     styleUrls: ['./class.component.css'],
     encapsulation: ViewEncapsulation.None,
     imports: [CommonModule, MatButtonModule, MatIconModule, FormsModule, MatFormFieldModule, ReactiveFormsModule, MatInputModule, MatSortModule, MatPaginatorModule,
-        MatSelectModule, MatOptionModule, FuseAlertComponent, MatCheckboxModule]
+        MatSelectModule, MatOptionModule, FuseAlertComponent, MatCheckboxModule, RouterLink]
 })
 export class ClassComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
@@ -52,7 +53,7 @@ export class ClassComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
 
         // Get the classes
-        this.getClasss();
+        this.getClasses();
 
         // Get the pagination
         this._classService.pagination$
@@ -109,7 +110,7 @@ export class ClassComponent implements OnInit, AfterViewInit {
         }
     }
 
-    private getClasss() {
+    private getClasses() {
         this.classes$ = this._classService.classes$;
     }
 
@@ -146,7 +147,7 @@ export class ClassComponent implements OnInit, AfterViewInit {
             debounceTime(500),
             switchMap((filter) => {
                 this.isLoading = true;
-                this._classService.getClasss(filter).subscribe(result => {
+                this._classService.getClasses(filter).subscribe(result => {
                     if (result.data.length == 0) {
                         this.showFlashMessage('error', 'No items were found', 3000)
                     }

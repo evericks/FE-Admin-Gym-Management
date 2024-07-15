@@ -1,0 +1,13 @@
+<ng-container *ngIf="calendarOptions">
+    <div class="flex w-full p-8">
+        <div class="grid w-full grid-cols-5">
+            <div class="col-span-2">class info</div>
+            <div class="col-span-3">
+                <full-calendar
+                    class="w-full"
+                    [options]="calendarOptions"
+                ></full-calendar>
+            </div>
+        </div>
+    </div>
+</ng-container>

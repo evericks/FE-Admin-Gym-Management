@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Class } from 'app/types/class.type';
@@ -11,7 +12,9 @@ export class ClassService {
     private _classes: BehaviorSubject<Class[] | null> = new BehaviorSubject(null);
     private _pagination: BehaviorSubject<Pagination | null> = new BehaviorSubject(null);
 
-    constructor(private _httpClient: HttpClient) { }
+    constructor(
+        private _httpClient: HttpClient,
+    ) { }
 
     /**
  * Getter for class
@@ -34,7 +37,7 @@ export class ClassService {
         return this._pagination.asObservable();
     }
 
-    getClasss(filter: any = {}):
+    getClasses(filter: any = {}):
         Observable<{ pagination: Pagination; data: Class[] }> {
         return this._httpClient.post<{ pagination: Pagination; data: Class[] }>('/api/classes/filter', filter).pipe(
             tap((response) => {
@@ -123,5 +126,19 @@ export class ClassService {
                 }),
             )),
         );
+    }
+
+    mapObjects(slots: any[], datePipe: DatePipe): any[] {
+        return slots.map(slot => {
+            const formattedStartTime = datePipe.transform(slot.startTime, 'shortTime');
+            const formattedEndTime = datePipe.transform(slot.endTime, 'shortTime');
+            const formattedDate = datePipe.transform(slot.startTime, 'yyyy-MM-dd');
+
+            return {
+                publicId: slot.id,
+                title: `${slot.name} (${formattedStartTime} - ${formattedEndTime})`,
+                date: formattedDate
+            };
+        });
     }
 }
