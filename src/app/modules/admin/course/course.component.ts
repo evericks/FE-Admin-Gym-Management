@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,6 +19,7 @@ import { CreateCourseComponent } from './create/create-course.component';
 import { CourseDetailComponent } from './detail/course-detail.component';
 import { Course } from 'app/types/course.type';
 import { CategoryService } from '../category/category.service';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 @Component({
     selector: 'course',
@@ -27,7 +28,7 @@ import { CategoryService } from '../category/category.service';
     styleUrls: ['./course.component.css'],
     encapsulation: ViewEncapsulation.None,
     imports: [CommonModule, MatButtonModule, MatIconModule, FormsModule, MatFormFieldModule, ReactiveFormsModule, MatInputModule, MatSortModule, MatPaginatorModule,
-        MatSelectModule, MatOptionModule, FuseAlertComponent, MatCheckboxModule]
+        MatSelectModule, MatOptionModule, FuseAlertComponent, MatCheckboxModule, MatProgressBar, NgOptimizedImage],
 })
 export class CourseComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;

@@ -51,7 +51,6 @@
 
     <!-- Invoices list -->
     <div
-        appHorizontalScroll
         class="flex flex-auto flex-col overflow-scroll sm:mb-18"
     >
         <ng-container *ngIf="courses$ | async as courses">
@@ -59,8 +58,6 @@
                 <!-- Header -->
                 <div
                     class="course-grid text-secondary sticky top-0 z-10 grid gap-4 bg-gray-50 px-6 py-4 text-md font-semibold shadow dark:bg-black dark:bg-opacity-5 md:px-8"
-                    matSort
-                    matSortDisableClear
                 >
                     <div class="hidden sm:block">Action</div>
                     <div class="hidden sm:block">Thumbnail</div>
@@ -71,9 +68,8 @@
                     <div class="hidden sm:block">Lesson Time</div>
                 </div>
                 <!-- Rows -->
-                <ng-container *ngIf="courses$ | async as courses">
                     <ng-container
-                        *ngFor="let course of courses; trackBy: trackByFn"
+                        *ngFor="let course of courses"
                     >
                         <div
                             class="course-grid grid items-center gap-4 border-b px-6 py-3 md:px-8"
@@ -151,7 +147,6 @@
                             </div>
                         </div>
                     </ng-container>
-                </ng-container>
             </div>
 
             <mat-paginator

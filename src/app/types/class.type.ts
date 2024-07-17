@@ -13,5 +13,5 @@ export interface Class {
     lessonTime: string,
     from: string,
     to: string,
-    status: string
+    status: string,
 }

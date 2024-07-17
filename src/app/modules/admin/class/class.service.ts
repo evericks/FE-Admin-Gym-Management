@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ClassMember } from 'app/types/class-member.type';
 import { Class } from 'app/types/class.type';
 import { Pagination } from 'app/types/pagination.type';
 import { BehaviorSubject, Observable, map, switchMap, take, tap } from 'rxjs';
@@ -10,6 +11,7 @@ export class ClassService {
 
     private _class: BehaviorSubject<Class | null> = new BehaviorSubject(null);
     private _classes: BehaviorSubject<Class[] | null> = new BehaviorSubject(null);
+    private _classMembers: BehaviorSubject<ClassMember[] | null> = new BehaviorSubject(null);
     private _pagination: BehaviorSubject<Pagination | null> = new BehaviorSubject(null);
 
     constructor(
@@ -31,6 +33,13 @@ export class ClassService {
     }
 
     /**
+ * Getter for class members
+ */
+    get classMembers$(): Observable<ClassMember[]> {
+        return this._classMembers.asObservable();
+    }
+
+    /**
  * Getter for pagination
  */
     get pagination$(): Observable<Pagination> {
@@ -43,6 +52,15 @@ export class ClassService {
             tap((response) => {
                 this._pagination.next(response.pagination);
                 this._classes.next(response.data);
+            }),
+        );
+    }
+
+    getClassMembers(filter: any = {}):
+        Observable<{ pagination: Pagination; data: ClassMember[] }> {
+        return this._httpClient.post<{ pagination: Pagination; data: ClassMember[] }>('/api/class-members/filter', filter).pipe(
+            tap((response) => {
+                this._classMembers.next(response.data);
             }),
         );
     }

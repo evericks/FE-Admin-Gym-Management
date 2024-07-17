@@ -64,6 +64,25 @@ export class CourseService {
     }
 
     /**
+ * Get course by class id
+ */
+    getCourseByClassId(id: string): Observable<Course> {
+        return this.courses$.pipe(
+            take(1),
+            switchMap(() => this._httpClient.get<Course>('/api/courses/classes/' + id).pipe(
+                map((course) => {
+
+                    // Set value for current course
+                    this._course.next(course);
+
+                    // Return the new contact
+                    return course;
+                })
+            ))
+        );
+    }
+
+    /**
 * Create course
 */
     createCourse(data) {

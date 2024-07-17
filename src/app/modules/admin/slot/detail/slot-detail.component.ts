@@ -34,8 +34,6 @@ export class SlotDetailComponent implements OnInit {
 
     initSlotUpdateForm() {
         this.slots$.pipe(take(1)).subscribe(slot => {
-            console.log(slot);
-
             this.slotUpdateForm = this._formBuilder.group({
                 id: [slot.id, [Validators.required]],
                 name: [slot.name, [Validators.required]],
