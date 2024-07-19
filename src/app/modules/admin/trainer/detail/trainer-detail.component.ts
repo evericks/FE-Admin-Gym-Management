@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Trainer } from 'app/types/trainer.type';
 import { TrainerService } from '../trainer.service';
+import { ageValidator } from '@fuse/validators/age/age.validator';
 
 @Component({
     selector: 'trainer-detail',
@@ -43,7 +44,7 @@ export class TrainerDetailComponent implements OnInit {
         this.updateTrainerForm = this._formBuilder.group({
             name: [this.trainer.name, [Validators.required]],
             phone: [this.trainer.phone, Validators.pattern('^(03|05|07|08|09)[0-9]{8}$')],
-            dateOfBirth: [this.trainer.dateOfBirth, [Validators.required]],
+            dateOfBirth: [this.trainer.dateOfBirth, [Validators.required, ageValidator(18)]],
             email: [{ value: this.trainer.email, disabled: true }],
             status: [this.trainer.status, [Validators.required]],
             gender: [this.trainer.gender, [Validators.required]],

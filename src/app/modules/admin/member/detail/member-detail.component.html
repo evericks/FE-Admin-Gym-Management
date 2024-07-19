@@ -151,9 +151,24 @@
                             [for]="picker"
                         ></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
+                        <mat-error
+                            *ngIf="
+                                updateMemberForm.controls.dateOfBirth.invalid &&
+                                updateMemberForm.controls.dateOfBirth.touched
+                            "
+                        >
+                            <span
+                                *ngIf="
+                                    updateMemberForm.controls.dateOfBirth.errors
+                                        ?.ageInvalid
+                                "
+                            >
+                                Age must be at least 13 years old.
+                            </span>
+                        </mat-error>
                     </mat-form-field>
                 </div>
-                <div class="flex justify-end">
+                <div class="mt-4 flex justify-end">
                     <button
                         (click)="updateMember()"
                         mat-raised-button

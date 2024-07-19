@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MemberService } from '../member.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
+import { ageValidator } from '@fuse/validators/age/age.validator';
 
 
 @Component({
@@ -40,7 +41,7 @@ export class CreateMemberComponent implements OnInit {
             name: [null, [Validators.required]],
             email: [null, [Validators.required, Validators.email]],
             password: [null, [Validators.required]],
-            dateOfBirth: [null, [Validators.required]],
+            dateOfBirth: [null, [Validators.required, ageValidator(13)]],
             gender: ['Male', [Validators.required]],
             phone: [null, [Validators.required, Validators.pattern('^(03|05|07|08|09)[0-9]{8}$')]],
         });

@@ -135,21 +135,40 @@
                             <mat-option [value]="'Orther'">Orther</mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field class="w-full">
-                        <mat-label>Date Of Birth</mat-label>
-                        <input
-                            matInput
-                            [matDatepicker]="picker"
-                            [formControlName]="'dateOfBirth'"
-                        />
-                        <mat-datepicker-toggle
-                            matIconSuffix
-                            [for]="picker"
-                        ></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
+                    <div class="w-full">
+                        <mat-form-field class="w-full">
+                            <mat-label>Date Of Birth</mat-label>
+                            <input
+                                matInput
+                                [matDatepicker]="picker"
+                                [formControlName]="'dateOfBirth'"
+                            />
+                            <mat-datepicker-toggle
+                                matIconSuffix
+                                [for]="picker"
+                            ></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error
+                                *ngIf="
+                                    createMemberForm.controls.dateOfBirth
+                                        .invalid &&
+                                    createMemberForm.controls.dateOfBirth
+                                        .touched
+                                "
+                            >
+                                <span
+                                    *ngIf="
+                                        createMemberForm.controls.dateOfBirth
+                                            .errors?.ageInvalid
+                                    "
+                                >
+                                    Age must be at least 13 years old.
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
                 </div>
-                <div class="flex justify-end">
+                <div class="mt-4 flex justify-end">
                     <button
                         (click)="createMember()"
                         mat-raised-button
