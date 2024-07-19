@@ -47,7 +47,7 @@ export class MemberDetailComponent implements OnInit {
             dateOfBirth: [this.member.dateOfBirth, [Validators.required, ageValidator(13)]],
             email: [{ value: this.member.email, disabled: true }],
             status: [this.member.status, [Validators.required]],
-            gender: [this.member.gender, [Validators.required]],
+            gender: [this.member.gender || 'Male', [Validators.required]],
         });
     }
 
