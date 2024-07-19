@@ -48,10 +48,10 @@ export const appConfig: ApplicationConfig = {
                 }
             },
         },
-        {
-            provide: MAT_DATE_LOCALE,
-            useValue: 'vi-VN'
-        },
+        // {
+        //     provide: MAT_DATE_LOCALE,
+        //     useValue: 'vi-VN'
+        // },
         {
             provide: MAT_LUXON_DATE_ADAPTER_OPTIONS,
             useValue: {
