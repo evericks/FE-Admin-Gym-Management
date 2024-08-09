@@ -1,26 +1,25 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialog } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions, EventClickArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { ClassService } from '../class.service';
-import { SlotService } from '../../slot/slot.service';
-import { MatDialog } from '@angular/material/dialog';
-import { SlotDetailComponent } from '../../slot/detail/slot-detail.component';
-import { Observable, take } from 'rxjs';
-import { Class } from 'app/types/class.type';
 import { FuseCardComponent } from '@fuse/components/card';
-import { ClassMember } from 'app/types/class-member.type';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { Class } from 'app/types/class.type';
 import { Course } from 'app/types/course.type';
+import { Observable, take } from 'rxjs';
 import { CourseService } from '../../course/course.service';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatSelectModule } from '@angular/material/select';
+import { SlotDetailComponent } from '../../slot/detail/slot-detail.component';
+import { SlotService } from '../../slot/slot.service';
+import { ClassService } from '../class.service';
 @Component({
     selector: 'class-detail',
     standalone: true,

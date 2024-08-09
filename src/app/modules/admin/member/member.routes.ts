@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { MemberComponent } from 'app/modules/admin/member/member.component';
 import { MemberService } from './member.service';
 

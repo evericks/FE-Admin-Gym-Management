@@ -87,10 +87,10 @@ export class ClassService {
     /**
 * Create class
 */
-    createClass(data) {
+    createClass(courseId, data) {
         return this.classes$.pipe(
             take(1),
-            switchMap((classes) => this._httpClient.post<Class>('/api/classes', data).pipe(
+            switchMap((classes) => this._httpClient.post<Class>('/api/classes/' + courseId, data).pipe(
                 map((newClass) => {
 
                     // Update class list with current page size

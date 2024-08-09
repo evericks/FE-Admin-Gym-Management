@@ -12,10 +12,14 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { FuseAlertComponent } from '@fuse/components/alert';
 import { Class } from 'app/types/class.type';
 import { Pagination } from 'app/types/pagination.type';
-import { Observable, Subject, debounceTime, filter, map, merge, of, switchMap, takeUntil } from 'rxjs';
+import { Observable, Subject, debounceTime, filter, forkJoin, map, merge, of, switchMap, takeUntil } from 'rxjs';
 import { ClassService } from './class.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RouterLink } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateClassComponent } from './create/create-class.component';
+import { CourseService } from '../course/course.service';
+import { TrainerService } from '../trainer/trainer.service';
 
 @Component({
     selector: 'class',
@@ -46,8 +50,11 @@ export class ClassComponent implements OnInit, AfterViewInit {
      */
     constructor(
         private _classService: ClassService,
+        private _trainerService: TrainerService,
+        private _courseService: CourseService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: UntypedFormBuilder,
+        private _dialog: MatDialog
     ) { }
 
     ngOnInit(): void {
@@ -158,6 +165,17 @@ export class ClassComponent implements OnInit, AfterViewInit {
                 this.isLoading = false;
             })
         ).subscribe();
+    }
+
+
+    openCreateClassDialog() {
+        const courses$ = this._courseService.getCourses();
+        const trainers$ = this._trainerService.getTrainers();
+        forkJoin([courses$, trainers$]).subscribe(() => {
+            this._dialog.open(CreateClassComponent, {
+                width: '960px'
+            }).afterClosed().subscribe();
+        })
     }
 
     private showFlashMessage(type: 'success' | 'error', message: string, time: number): void {
