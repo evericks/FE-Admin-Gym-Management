@@ -9,15 +9,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FuseCardComponent } from '@fuse/components/card';
-import { CourseService } from '../../course/course.service';
-import { ClassService } from '../class.service';
-import { Observable } from 'rxjs';
 import { Course } from 'app/types/course.type';
-import { Wishlist } from 'app/types/wishlist.type';
-import { WishlistService } from '../../wishlist/wishlist.service';
-import { TrainerService } from '../../trainer/trainer.service';
 import { Trainer } from 'app/types/trainer.type';
-import { DateTime } from 'luxon';
+import { Wishlist } from 'app/types/wishlist.type';
+import { Observable } from 'rxjs';
+import { CourseService } from '../../course/course.service';
+import { TrainerService } from '../../trainer/trainer.service';
+import { WishlistService } from '../../wishlist/wishlist.service';
+import { ClassService } from '../class.service';
 
 @Component({
     selector: 'create-class',
@@ -89,7 +88,7 @@ export class CreateClassComponent implements OnInit {
         this.formatTime();
         if (this.classForm.valid) {
             this._classService.createClass(this.selectedCourseId, this.classForm.value).subscribe(result => {
-                console.log(result);
+                this.matDialogRef.close('success');
             })
         }
     }

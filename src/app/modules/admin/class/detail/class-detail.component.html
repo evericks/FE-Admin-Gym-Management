@@ -49,17 +49,6 @@
                             </div>
                             <form [formGroup]="classForm" class="h-full">
                                 <div class="mt-6 flex h-full flex-col">
-                                    <mat-form-field class="w-full">
-                                        <mat-label>Category</mat-label>
-                                        <mat-select [(value)]="class.status">
-                                            <mat-option [value]="'Active'"
-                                                >Active</mat-option
-                                            >
-                                            <mat-option [value]="'Unactive'"
-                                                >Unactive</mat-option
-                                            >
-                                        </mat-select>
-                                    </mat-form-field>
                                     <div class="flex gap-4">
                                         <mat-form-field class="w-full">
                                             <mat-label>Name</mat-label>
@@ -73,6 +62,9 @@
                                         <mat-form-field class="w-full">
                                             <mat-label>Status</mat-label>
                                             <mat-select
+                                                (selectionChange)="
+                                                    onStatusChange($event)
+                                                "
                                                 [(value)]="class.status"
                                             >
                                                 <mat-option [value]="'Active'"
@@ -144,11 +136,23 @@
                                             />
                                         </mat-form-field>
                                     </div>
-                                    <div class="flex w-full justify-end">
+                                    <div class="flex w-full justify-end gap-4">
                                         <button
                                             mat-raised-button
                                             color="primary"
-                                            class="flex min-w-fit gap-2"
+                                            class="flex w-full min-w-fit gap-2"
+                                            (click)="viewMember()"
+                                        >
+                                            <mat-icon
+                                                svgIcon="heroicons_outline:inbox"
+                                            ></mat-icon>
+                                            <span> Members </span>
+                                        </button>
+                                        <button
+                                            mat-raised-button
+                                            color="accent"
+                                            class="flex w-full min-w-fit gap-2"
+                                            (click)="updateClass()"
                                         >
                                             <mat-icon
                                                 svgIcon="heroicons_outline:inbox"

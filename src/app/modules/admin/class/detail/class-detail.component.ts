@@ -20,6 +20,7 @@ import { CourseService } from '../../course/course.service';
 import { SlotDetailComponent } from '../../slot/detail/slot-detail.component';
 import { SlotService } from '../../slot/slot.service';
 import { ClassService } from '../class.service';
+import { MemberComponent } from '../member/member.component';
 @Component({
     selector: 'class-detail',
     standalone: true,
@@ -86,12 +87,31 @@ export class ClassDetailComponent implements OnInit {
         this.class$.pipe(take(1)).subscribe((cl) => {
             this.classForm = this._formBuilder.group({
                 name: [cl.name, [Validators.required]],
-                from: [cl.from, [Validators.required]],
+                from: [{ value: cl.from, disabled: true }, [Validators.required]],
                 to: [{ value: cl.to, disabled: true }, [Validators.required]],
                 status: [cl.status, [Validators.required]],
                 lessonCount: [{ value: cl.lessonCount, disabled: true }, [Validators.required]],
-                totalLesson: [cl.totalLesson, [Validators.required]],
+                totalLesson: [{ value: cl.totalLesson, disabled: true }, [Validators.required]],
             });
         });
+    }
+
+    updateClass() {
+        let id;
+        this.class$.subscribe(cl => {
+            id = cl.id
+        })
+        this._classService.updateClass(id, this.classForm.value).subscribe(result => {
+        });
+    }
+
+    onStatusChange(event: any) {
+        this.classForm.controls['status'].setValue(event.value);
+    }
+
+    viewMember() {
+        this._dialog.open(MemberComponent, {
+            width: '720px'
+        })
     }
 }

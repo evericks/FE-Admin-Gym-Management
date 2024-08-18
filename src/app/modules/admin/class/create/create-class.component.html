@@ -25,22 +25,6 @@
                             </ng-container>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field class="w-full">
-                        <mat-label>Select Students</mat-label>
-                        <mat-select multiple>
-                            <ng-container
-                                *ngIf="wishlists$ | async as wishlists"
-                            >
-                                <ng-container
-                                    *ngFor="let wishlist of wishlists"
-                                >
-                                    <mat-option [value]="wishlist.member.id">
-                                        {{ wishlist.member.name }}
-                                    </mat-option>
-                                </ng-container>
-                            </ng-container>
-                        </mat-select>
-                    </mat-form-field>
                 </div>
                 <div formGroupName="slotCreateModel" class="flex gap-4">
                     <mat-form-field class="w-full">

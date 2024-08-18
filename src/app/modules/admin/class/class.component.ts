@@ -174,7 +174,11 @@ export class ClassComponent implements OnInit, AfterViewInit {
         forkJoin([courses$, trainers$]).subscribe(() => {
             this._dialog.open(CreateClassComponent, {
                 width: '960px'
-            }).afterClosed().subscribe();
+            }).afterClosed().subscribe((result) => {
+                if (result === 'success') {
+                    this.showFlashMessage('success', 'Create class successfull', 3000);
+                }
+            });
         })
     }
 
