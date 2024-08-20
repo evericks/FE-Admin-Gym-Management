@@ -21,6 +21,7 @@ import { SlotDetailComponent } from '../../slot/detail/slot-detail.component';
 import { SlotService } from '../../slot/slot.service';
 import { ClassService } from '../class.service';
 import { MemberComponent } from '../member/member.component';
+import { WishlistService } from '../../wishlist/wishlist.service';
 @Component({
     selector: 'class-detail',
     standalone: true,
@@ -43,6 +44,7 @@ export class ClassDetailComponent implements OnInit {
         private _courseService: CourseService,
         private _datePipe: DatePipe,
         private _slotService: SlotService,
+        private wishlistService: WishlistService,
         private _dialog: MatDialog,
         private _formBuilder: UntypedFormBuilder
     ) { }
@@ -101,7 +103,13 @@ export class ClassDetailComponent implements OnInit {
         this.class$.subscribe(cl => {
             id = cl.id
         })
-        this._classService.updateClass(id, this.classForm.value).subscribe(result => {
+        this._classService.updateClass(id, this.classForm.value).subscribe({
+            next: () => {
+
+            },
+            error: (error) => {
+
+            }
         });
     }
 
@@ -110,8 +118,19 @@ export class ClassDetailComponent implements OnInit {
     }
 
     viewMember() {
-        this._dialog.open(MemberComponent, {
-            width: '720px'
+        let id;
+        this.class$.subscribe(cl => {
+            id = cl.id
+        })
+        this._classService.getClassMembers(id).subscribe((members) => {
+            this.wishlistService.getCourseWishlists(id).subscribe(wishlist => {
+                this._dialog.open(MemberComponent, {
+                    data: {
+                        classId: id,
+                    },
+                    width: '720px'
+                })
+            })
         })
     }
 }

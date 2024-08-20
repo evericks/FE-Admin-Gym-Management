@@ -9,6 +9,7 @@ import { SlotService } from '../slot.service';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 
 @Component({
     selector: 'slot-detail',
@@ -24,7 +25,8 @@ export class SlotDetailComponent implements OnInit {
     constructor(
         public matDialogRef: MatDialogRef<SlotDetailComponent>,
         private _slotService: SlotService,
-        private _formBuilder: UntypedFormBuilder
+        private _formBuilder: UntypedFormBuilder,
+        private _fuseConfirmation: FuseConfirmationService
     ) { }
 
     ngOnInit(): void {
@@ -44,8 +46,18 @@ export class SlotDetailComponent implements OnInit {
     }
 
     updateSlot(id: string) {
-        this._slotService.updateSlot(id, this.slotUpdateForm.value).subscribe(() => {
-            this.matDialogRef.close()
+        this._slotService.updateSlot(id, this.slotUpdateForm.value).subscribe({
+            next: () => {
+                this.matDialogRef.close();
+            },
+            error: (error) => {
+                if (error.error === 'SCHEDULE OVERLAP') {
+                    this._fuseConfirmation.open({
+                        title: 'Schedule overlap',
+                        message: 'The class schedule has been overtaken, please choose another time.'
+                    })
+                }
+            }
         })
     }
 }

@@ -14,6 +14,7 @@ export class ClassService {
     private _classMembers: BehaviorSubject<ClassMember[] | null> = new BehaviorSubject(null);
     private _pagination: BehaviorSubject<Pagination | null> = new BehaviorSubject(null);
 
+
     constructor(
         private _httpClient: HttpClient,
     ) { }
@@ -56,9 +57,9 @@ export class ClassService {
         );
     }
 
-    getClassMembers(filter: any = {}):
+    getClassMembers(classId: string):
         Observable<{ pagination: Pagination; data: ClassMember[] }> {
-        return this._httpClient.post<{ pagination: Pagination; data: ClassMember[] }>('/api/class-members/filter', filter).pipe(
+        return this._httpClient.post<{ pagination: Pagination; data: ClassMember[] }>('/api/class-members/filter', { classId: classId }).pipe(
             tap((response) => {
                 this._classMembers.next(response.data);
             }),
@@ -100,6 +101,14 @@ export class ClassService {
                 })
             ))
         )
+    }
+
+    haha(courseId, data) {
+        return this.classes$.pipe(take(1), switchMap((classes) => {
+            return this._httpClient.post<Class>('/api/classes/' + courseId, data).pipe(map((newClass) => {
+                return newClass;
+            }))
+        }))
     }
 
     /**
@@ -146,12 +155,23 @@ export class ClassService {
         );
     }
 
+    addMember(memberId: string, classId: string) {
+        return this.classMembers$.pipe(
+            take(1),
+            switchMap((classMembers) => this._httpClient.post<ClassMember>('/api/class-members/' + memberId + '/add-member', { classId: classId }).pipe(
+                map((newClassMember) => {
+                    this._classMembers.next([newClassMember, ...classMembers]);
+                    return newClassMember;
+                })
+            ))
+        )
+    }
+
     mapObjects(slots: any[], datePipe: DatePipe): any[] {
         return slots.map(slot => {
             const formattedStartTime = datePipe.transform(slot.startTime, 'shortTime');
             const formattedEndTime = datePipe.transform(slot.endTime, 'shortTime');
             const formattedDate = datePipe.transform(slot.startTime, 'yyyy-MM-dd');
-
             return {
                 publicId: slot.id,
                 title: `${slot.name} (${formattedStartTime} - ${formattedEndTime})`,

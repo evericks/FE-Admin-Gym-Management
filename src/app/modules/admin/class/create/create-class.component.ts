@@ -67,7 +67,7 @@ export class CreateClassComponent implements OnInit {
 
     onCourseChange(event: any) {
         this.selectedCourseId = event.value;
-        this._wishlistService.getCourseWishlists({ courseId: this.selectedCourseId }).subscribe();
+        // this._wishlistService.getCourseWishlists({ courseId: this.selectedCourseId }).subscribe();
     }
 
     onTrainerChange(event: any) {

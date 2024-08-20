@@ -34,9 +34,9 @@ export class WishlistService {
         return this._pagination.asObservable();
     }
 
-    getCourseWishlists(filter: any = {}):
+    getCourseWishlists(classId: string):
         Observable<{ pagination: Pagination; data: Wishlist[] }> {
-        return this._httpClient.post<{ pagination: Pagination; data: Wishlist[] }>('/api/wishlists/filter', filter).pipe(
+        return this._httpClient.post<{ pagination: Pagination; data: Wishlist[] }>('/api/wishlists/filter', { classId: classId }).pipe(
             tap((response) => {
                 this._pagination.next(response.pagination);
                 this._wishlists.next(response.data);
@@ -126,7 +126,7 @@ export class WishlistService {
     deleteWishlist(id: string): Observable<boolean> {
         return this.wishlists$.pipe(
             take(1),
-            switchMap(wishlists => this._httpClient.delete('/api/wishlists/' + id).pipe(
+            switchMap(wishlists => this._httpClient.delete('/api/wishlists/' + id + '/remove').pipe(
                 map((isDeleted: boolean) => {
                     // Find the index of the deleted product
                     const index = wishlists.findIndex(item => item.id === id);
