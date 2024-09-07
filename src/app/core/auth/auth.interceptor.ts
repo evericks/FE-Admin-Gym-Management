@@ -63,6 +63,10 @@ export const authInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn):
                 errorService.showConflictError(error.error);
             }
 
+            if (error instanceof HttpErrorResponse && error.status === 400) {
+                errorService.showBadRequestError(error.error);
+            }
+
             return throwError(error);
         }),
     );

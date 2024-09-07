@@ -11,12 +11,15 @@ import { Category } from 'app/types/category.type';
 import { Observable } from 'rxjs';
 import { CategoryService } from '../../category/category.service';
 import { CourseService } from '../course.service';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
     selector: 'create-course',
     standalone: true,
     templateUrl: './create-course.component.html',
-    imports: [CommonModule, MatButtonModule, MatIconModule, MatFormFieldModule, FormsModule, ReactiveFormsModule, MatInputModule, MatSelectModule]
+    imports: [CommonModule, MatButtonModule, MatIconModule,
+        MatFormFieldModule, FormsModule, ReactiveFormsModule,
+        MatInputModule, MatSelectModule, MatSlideToggleModule]
 })
 export class CreateCourseComponent implements OnInit {
 
@@ -25,6 +28,7 @@ export class CreateCourseComponent implements OnInit {
     selectedFile: File;
     uploadMessage: string;
     createCourseForm: UntypedFormGroup;
+    isPremium: boolean;
 
     constructor(
         public matDialogRef: MatDialogRef<CreateCourseComponent>,
@@ -46,6 +50,7 @@ export class CreateCourseComponent implements OnInit {
             totalSlot: [null, [Validators.required]],
             totalMember: [null, [Validators.required]],
             lessonTime: [null, [Validators.required]],
+            isPremium: [false]
         });
     }
 

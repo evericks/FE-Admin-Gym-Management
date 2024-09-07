@@ -20,6 +20,7 @@ import { CourseDetailComponent } from './detail/course-detail.component';
 import { Course } from 'app/types/course.type';
 import { CategoryService } from '../category/category.service';
 import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
     selector: 'course',
@@ -28,7 +29,7 @@ import { MatProgressBar } from '@angular/material/progress-bar';
     styleUrls: ['./course.component.css'],
     encapsulation: ViewEncapsulation.None,
     imports: [CommonModule, MatButtonModule, MatIconModule, FormsModule, MatFormFieldModule, ReactiveFormsModule, MatInputModule, MatSortModule, MatPaginatorModule,
-        MatSelectModule, MatOptionModule, FuseAlertComponent, MatCheckboxModule, MatProgressBar, NgOptimizedImage],
+        MatSelectModule, MatOptionModule, FuseAlertComponent, MatCheckboxModule, MatProgressBar, NgOptimizedImage, MatSlideToggleModule],
 })
 export class CourseComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;

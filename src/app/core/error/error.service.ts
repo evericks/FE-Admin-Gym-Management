@@ -46,4 +46,23 @@ export class ErrorService {
             }
         });
     }
+
+    showBadRequestError(message: string) {
+        this.errorSubject.next(message);
+        this._fuseConfirmationService.open({
+            title: 'Error',
+            message: message,
+            icon: {
+                color: 'primary',
+            },
+            actions: {
+                confirm: {
+                    color: 'primary'
+                },
+                cancel: {
+                    show: false
+                }
+            }
+        });
+    }
 }

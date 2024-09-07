@@ -80,8 +80,10 @@ export class CreateClassComponent implements OnInit {
 
     private formatTime() {
         const time = this.classForm.controls['from'].value;
-        const formatTime = time + ':00';
-        this.classForm.controls['from'].setValue(formatTime);
+        if (time.length == 5) {
+            const formatTime = time + ':00';
+            this.classForm.controls['from'].setValue(formatTime);
+        }
     }
 
     createClass() {
