@@ -113,6 +113,15 @@
                         </ng-container>
                     </div>
                 </ng-container>
+                <ng-container *ngIf="wishlists.length == 0">
+                    <fuse-alert
+                        [appearance]="'outline'"
+                        [showIcon]="false"
+                        [type]="'info'"
+                    >
+                        No members found!
+                    </fuse-alert>
+                </ng-container>
             </ng-container>
         </div>
     </div>

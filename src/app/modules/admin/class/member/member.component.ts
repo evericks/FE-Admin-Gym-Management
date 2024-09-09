@@ -11,12 +11,13 @@ import { CommonModule } from '@angular/common';
 import { environment } from 'environments/environment.prod';
 import { MatButtonModule } from '@angular/material/button';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { FuseAlertComponent } from '@fuse/components/alert';
 
 @Component({
     selector: 'member',
     templateUrl: './member.component.html',
     standalone: true,
-    imports: [CommonModule, MatIconModule, FuseCardComponent, MatButtonModule]
+    imports: [CommonModule, MatIconModule, FuseCardComponent, MatButtonModule, FuseAlertComponent]
 })
 export class MemberComponent implements OnInit {
 
